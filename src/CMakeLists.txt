@@ -1,11 +1,8 @@
 # for each "src/x.cpp", generate target "x"
-file(GLOB_RECURSE all_srcs CONFIGURE_DEPENDS *.cpp)
-foreach(v ${all_srcs})
-    string(REGEX MATCH "src/.*" relative_path ${v})
-    # message(${relative_path})
-    string(REGEX REPLACE "src/" "" target_name ${relative_path})
-    string(REGEX REPLACE ".cpp" "" target_name ${target_name})
+set(LOG_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/log)
+set(CORE_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/core)
 
-    add_executable(${target_name} ${v})
-    # target_link_libraries(fcoroutines)
-endforeach()
+file(GLOB LOG_SRC_FILES ${LOG_SRC_DIR}/*.cpp)
+file(GLOB CORE_SRC_FILES ${CORE_SRC_DIR}/*.cpp)
+
+add_library(neolib ${LOG_SRC_FILES} ${CORE_SRC_FILES})
