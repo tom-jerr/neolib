@@ -96,5 +96,7 @@
         "io_context": "cpp",
         "netfwd": "cpp"
     },
-    "cmake.buildTask": true
+    "cmake.buildTask": true,
+    "editor.fontSize": 16,
+    "C_Cpp.intelliSenseEngine": "disabled"
 }

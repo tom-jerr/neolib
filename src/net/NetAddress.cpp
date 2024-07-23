@@ -9,8 +9,9 @@
  *
  */
 
-#include "common/NetAddress.h"
+#include "net/NetAddress.h"
 #include <cstring>
+using namespace neonet;
 NetAddress::NetAddress() : m_addr_len(sizeof(m_addr)) {
   memset(&m_addr, 0, m_addr_len);
 }

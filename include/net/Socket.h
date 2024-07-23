@@ -11,9 +11,9 @@
 
 #ifndef SOCKET_H
 #define SOCKET_H
-#include "Config.h"
+#include "../Config.h"
 #include <unistd.h>
-
+namespace neonet {
 class NetAddress;
 
 class Socket {
@@ -45,12 +45,12 @@ public:
    */
   int listen(int backlog = BACKLOG);
   /**
-   * @brief 接受客户端的连接
+   * @brief 接受客户端的连接，返回一个已连接fd
    *
-   * @param addr
+   * @param peeraddr
    * @return int
    */
-  int accept(NetAddress &addr);
+  int accept(NetAddress *peeraddr);
   /**
    * @brief 客户端发起连接
    *
@@ -58,6 +58,12 @@ public:
    * @return int
    */
   int connect(const NetAddress &addr);
+  /**
+   * @brief 关闭写半部连接
+   *
+   * @return int
+   */
+  int shutdownWrite();
 
 private:
   /**
@@ -74,15 +80,20 @@ private:
   int setReusePort();
   int setNonblock();
   /**
-   * @brief
-   * 关闭Nagle算法，允许小包的发送。
+   * @brief 关闭Nagle算法，允许小包的发送。
    *
    * @return int
    */
   int setNoDelay();
+  /**
+   * @brief Set the Keep Alive object
+   *
+   * @return int
+   */
   int setKeepAlive();
 
 private:
   int m_sockfd{-1}; // 套接字描述符
 };
+} // namespace neonet
 #endif // SOCKET_H

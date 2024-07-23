@@ -14,7 +14,7 @@
 #include <arpa/inet.h>
 #include <netinet/in.h>
 #include <sys/socket.h>
-
+namespace neonet {
 class NetAddress {
 public:
   NetAddress();
@@ -27,14 +27,16 @@ public:
   NetAddress &operator=(const NetAddress &addr) = delete;
 
 public:
-  sockaddr_in getAddr() const { return m_addr; }
-  socklen_t getAddrLen() const { return m_addr_len; }
+  const struct sockaddr_in &getAddr() const { return m_addr; }
+  const socklen_t getAddrLen() const { return m_addr_len; }
+  socklen_t *getAddrLenPtr() { return &m_addr_len; }
   const char *getIp() const { return inet_ntoa(m_addr.sin_addr); }
   int getPort() const { return ntohs(m_addr.sin_port); }
+  void setAddr(const struct sockaddr_in &addr) { m_addr = addr; }
 
 private:
   struct sockaddr_in m_addr;
   socklen_t m_addr_len;
 };
-
+} // namespace neonet
 #endif // NETADDRESS_H

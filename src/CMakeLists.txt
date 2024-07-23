@@ -1,5 +1,5 @@
 # for each "src/x.cpp", generate target "x"
-file(GLOB_RECURSE all_srcs CONFIGURE_DEPENDS *.cpp common/*.cpp)
+file(GLOB_RECURSE all_srcs CONFIGURE_DEPENDS tools/*.cpp net/*.cpp)
 add_library(RelayServerLib ${all_srcs})
 # foreach(v ${all_srcs})
 #     string(REGEX MATCH "src/.*" relative_path ${v})

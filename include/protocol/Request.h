@@ -11,12 +11,12 @@
 #include <cstdint>
 #ifndef REQUEST_H
 #define REQUEST_H
-
+namespace neonet {
 struct Header {
-  uint32_t cmd;     // 消息类型，1表示请求，2表示响应
-  uint32_t length;  // 请求报文体长度
+  uint32_t cmd;    // 消息类型，1表示请求，2表示响应
+  uint32_t length; // 请求报文体长度
 
   Header() : cmd(0), length(0) {}
 } __attribute__((packed));
-
-#endif  // REQUEST_H
+} // namespace neonet
+#endif // REQUEST_H
