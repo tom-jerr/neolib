@@ -27,7 +27,7 @@ public:
   Socket &operator=(const Socket &sock) = delete;
 
 public:
-  int getFd() const { return m_sockfd; }
+  int fd() const { return m_sockfd; }
   void setFd(int sockfd) { m_sockfd = sockfd; }
   /**
    * @brief 对套接字进行绑定地址

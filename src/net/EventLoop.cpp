@@ -52,7 +52,7 @@ public:
 } // namespace
 
 EventLoop::EventLoop()
-    : m_epoller(new Epoller()), m_wakeupFd(createEventfd()),
+    : m_epoller(new EPoller(this)), m_wakeupFd(createEventfd()),
       m_wakeupChannel(new Channel(this, m_wakeupFd)) {
   std::cout << "EventLoop created " << this << " in thread " << m_threadId
             << std::endl;
@@ -67,7 +67,7 @@ EventLoop::EventLoop()
    * @brief wakeupfd的读事件回调函数，就是读取一个8字节的数字，唤醒epoll_wait
    *
    */
-  auto handleRead = [this]() {
+  auto wakeupEpoll = [this]() {
     uint64_t one = 1;
     ssize_t n = socket::read(m_wakeupFd, &one, sizeof one);
     if (n != sizeof one) {
@@ -75,7 +75,7 @@ EventLoop::EventLoop()
                 << " bytes instead of 8";
     }
   };
-  m_wakeupChannel->setReadCallback(handleRead);
+  m_wakeupChannel->setReadCallback(wakeupEpoll);
   // 每次唤醒都会调用handleRead
   m_wakeupChannel->enableReading();
 }

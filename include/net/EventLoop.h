@@ -115,18 +115,16 @@ private:
   using ChannelList = std::vector<Channel *>;
 
 private:
-  bool m_looping{false}; /* atomic */
-  std::atomic<bool> m_quit{false};
-  bool m_eventHandling{false};          /* atomic */
-  bool m_callingPendingFunctors{false}; /* atomic */
-  std::thread::id m_threadId{std::this_thread::get_id()};
+  bool m_looping{false};                // 是否正在事件循环
+  std::atomic<bool> m_quit{false};      // 是否已经退出
+  bool m_eventHandling{false};          // 是否正在进行事件处理
+  bool m_callingPendingFunctors{false}; // 是否正在执行任务队列中的任务
+  std::thread::id m_threadId{std::this_thread::get_id()}; // 当前线程id
 
-  std::unique_ptr<EPoller> m_epoller;
-  // std::unique_ptr<TimerQueue> timerQueue_;
-  int m_wakeupFd; // 用于唤醒阻塞的eventloop
-  // unlike in TimerQueue, which is an internal class,
-  // we don't expose Channel to client.
-  std::unique_ptr<Channel> m_wakeupChannel;
+  std::unique_ptr<EPoller> m_epoller; // epoll的封装
+  int m_wakeupFd;                     // 用于唤醒阻塞的eventloop
+  std::unique_ptr<Channel>
+      m_wakeupChannel; // 唤醒channel，监听m_wakeupFd上的事件
 
   // scratch variables
   ChannelList m_activeChannels;
